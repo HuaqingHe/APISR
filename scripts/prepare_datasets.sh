@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Set up the PATH TO THE SOURCE
-input_source=../datasets_anime/APISR_dataset/
+input_source=datasets_anime/APISR_dataset/
 
 # The following three paths will be used widely in opt.py setting!!!
 uncropped_hr=datasets/APISR_720p_4xcrop

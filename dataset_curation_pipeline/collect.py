@@ -140,7 +140,7 @@ class frame_collector:
         for video_name in sorted(os.listdir(video_folder_dir)):
             # Sanity check for this video file format
             info = video_name.split('.')
-            if info[-1] not in ['mp4', 'mkv', '']:
+            if info[-1] not in ['mp4', 'mkv', 'MP4']:
                 continue
             output_name_head, extension = info
 
@@ -180,11 +180,12 @@ if __name__ == "__main__":
 
     # Fundamental setting
     parser = argparse.ArgumentParser()
-    parser.add_argument('--video_folder_dir', type = str, default = '../anime_videos',                  help = "A folder with video sources")
+    parser.add_argument('--video_folder_dir', type = str, default = 'game_videos2',                  help = "A folder with video sources")
     parser.add_argument('--IC9600_pretrained_weight_path', type = str, default = "pretrained/ck.pth",   help = "The pretrained IC9600 weight")
     parser.add_argument('--save_dir', type = str, default = 'APISR_dataset',                         help = "The folder to store filtered dataset")
     parser.add_argument('--skip_num', type = int, default = 5,                                          help = "Only 1 in skip_num will be chosen in sequential I-frames to accelerate.")
     parser.add_argument('--target_frames', type = list, default = [16, 24],                             help = "[# of frames for video under 30 min, # of frames for video over 30 min]")
+    # 视频会被分为partition_num份，每份会被选取target_frames/partition_num帧
     parser.add_argument('--partition_num', type = int, default = 8,                                     help = "The number of partition we want to crop the video to, to increase diversity of sampling")
     parser.add_argument('--verbose', type = bool, default = True,                                       help = "Whether we print log message")
     args  = parser.parse_args()

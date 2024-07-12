@@ -146,6 +146,7 @@ def super_resolve_video(generator, input_path, output_path, scale, weight_dtype=
         # Transform to tensor
         # img_lr = cv2.cvtColor(img_lr, cv2.COLOR_BGR2RGB)
         img_lr = ToTensor()(img_lr).unsqueeze(0).cuda()     # Use tensor format
+        print("img_lr shape is ", img_lr.shape)
         img_lr = img_lr.to(dtype=weight_dtype)
         
         
@@ -175,9 +176,9 @@ if __name__ == "__main__":
     
     # Fundamental setting
     parser = argparse.ArgumentParser()
-    parser.add_argument('--input_dir', type = str, default = '__assets__/lr_inputs', help="Can be either single image input or a folder input")
+    parser.add_argument('--input_dir', type = str, default = '/simple_ssd/HuaqingHe/AnimeSR/inputs/test0704', help="Can be either single image input or a folder input")
     parser.add_argument('--scale', type = int, default = 4, help="Upscaler factor")
-    parser.add_argument('--store_dir', type = str, default = 'sample_outputs', help="The folder to store the super-resolved images")
+    parser.add_argument('--store_dir', type = str, default = 'debug_outputs', help="The folder to store the super-resolved images")
     parser.add_argument('--model', type = str, default = 'GRL', help=" 'GRL' || 'RRDB' (for ESRNET & ESRGAN) || 'DAT' || 'CUNET' (for Real-ESRGAN) ")
     parser.add_argument('--weight_path', type = str, default = 'pretrained/4x_APISR_GRL_GAN_generator.pth', help="Weight path directory, usually under saved_models folder")
     parser.add_argument('--downsample_threshold', type = int, default = -1, help="Downsample with same aspect ratio if the height/width (short side) is over the threshold limit, recommend to set as 720")

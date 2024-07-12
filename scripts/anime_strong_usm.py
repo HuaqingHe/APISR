@@ -110,7 +110,8 @@ class USMSharp(torch.nn.Module):
 
 
 def get_xdog_sketch_map(img_bgr, outlier_threshold):
-        
+    # print(img_bgr.shape)
+    # print(img_bgr.dtype)
     gray = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2GRAY)
     sketch_map = gen_xdog_image(gray, outlier_threshold)
     sketch_map = np.stack((sketch_map, sketch_map, sketch_map), axis=2) # concatenate to 3 dim
@@ -136,7 +137,9 @@ def process_single_img(queue, usm_sharper, extra_sharpen_time, outlier_threshold
         img_dir, store_path = info
         print("We are processing ", img_dir)
         img = cv2.imread(img_dir)
-
+        # print("The shape of the image is ", img.shape)
+        # print("The dtype of the image is ", img.dtype)
+        # img = usm_sharper(np.array(img), store=False, threshold=10)
         img = usm_sharper(img, store=False, threshold=10)
         first_sharpened_img = copy.deepcopy(img)
 
@@ -338,8 +341,8 @@ if __name__ == "__main__":
 
     # Parse variables available
     parser = argparse.ArgumentParser()
-    parser.add_argument('-i', '--input_dir', type = str)
-    parser.add_argument('-o', '--store_dir', type = str)
+    parser.add_argument('-i', '--input_dir', type = str, default='datasets/APISR_720p_4xcrop')
+    parser.add_argument('-o', '--store_dir', type = str, default='APISR_sharpen_tmp')
     parser.add_argument('--outlier_threshold', type = int, default=32)
     parser.add_argument('--num_workers', type = int, default=6)
     args = parser.parse_args()

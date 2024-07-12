@@ -352,6 +352,7 @@ class train_master(object):
 
         # If we directly use API, pytorch2.0 may raise an unknown bugs which is extremely slow on degradation pipeline
         os.system("python scripts/generate_lr_esr.py")
+        print("We will generate new LR dataset for the next epoch")
 
 
         # Assert check

@@ -42,7 +42,13 @@ class MPEG2():
         # Encode
         ffmpeg_encode_cmd = "ffmpeg -i " + temp_input_path + "/%d.png -vcodec mpeg2video -qscale:v " + quality + " -preset " + preset + " -pix_fmt yuv420p " + video_store_dir + " -loglevel 0"
         os.system(ffmpeg_encode_cmd)
-        
+        # while True:
+        #     if os.path.exists(video_store_dir):
+        #         # print("mpeg2 is done.")
+        #         break
+        #     else:
+        #         # os.system(ffmpeg_encode_cmd)
+        #         print("mpeg2 waiting.")
 
         # Decode
         ffmpeg_decode_cmd = "ffmpeg -i " + video_store_dir + " " + temp_store_path + "/%d.png -loglevel 0"

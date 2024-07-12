@@ -42,6 +42,13 @@ class MPEG4():
         # Encode
         ffmpeg_encode_cmd = "ffmpeg -i " + temp_input_path + "/%d.png -vcodec libxvid -qscale:v " + quality + " -preset " + preset + " -pix_fmt yuv420p " + video_store_dir + " -loglevel 0"
         os.system(ffmpeg_encode_cmd)
+        # while True:
+        #     if os.path.exists(video_store_dir):
+        #         # print("mpeg4 is done.")
+        #         break
+        #     else:
+        #         # os.system(ffmpeg_encode_cmd)
+        #         print("mpeg4 waiting.")
         
 
         # Decode

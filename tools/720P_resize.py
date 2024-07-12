@@ -1,5 +1,5 @@
 import os, cv2, shutil, argparse
-
+import math
 
 if __name__ == "__main__":
 
@@ -33,12 +33,42 @@ if __name__ == "__main__":
             continue
         elif h < 720:
             print("It is weird that there is an image with height less than 720 ", file_name)
-            break
+            continue
         
-        # Else, here we need to resize them (All resize to 720P)
-
+        # # Else, here we need to resize them (All resize to 720P)
+        # both resize and crop
         new_w = int(w*(720/h))
         img_bicubic = cv2.resize(img, (new_w, 720), interpolation=cv2.INTER_CUBIC)
         cv2.imwrite(os.path.join(store_dir, file_name), img_bicubic, [cv2.IMWRITE_PNG_COMPRESSION, 0])
+        
+        # I don't want to resize the image, but crop the image to 720P
+        # calculate the number of crops blocks
+        num_blocks_w = math.ceil(w / 720)
+        num_blocks_h = math.ceil(h / 720)
+        block_count = 0
+        for i in range(num_blocks_h):
+            for j in range(num_blocks_w):
+                # 计算每个图块的坐标
+                x_start = j * 720
+                y_start = i * 720
+                if x_start + 720 > w:
+                    x_start = w - 720
+                    x_end = w
+                else:
+                    x_end = x_start + 720
+                if y_start + 720 > h:
+                    y_start = h - 720
+                    y_end = h
+                else:
+                    y_end = y_start + 720
+                
+                # 分割图片
+                img_block = img[y_start:y_end, x_start:x_end]
+                
+                # 保存图块
+                block_file_name = file_name.split('.')[0] + f"_{block_count}.png"
+                cv2.imwrite(os.path.join(store_dir, block_file_name), img_block)
+                block_count += 1
+                num += 1
 
     print("The total resize num is ", num)
